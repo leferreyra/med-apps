@@ -1,0 +1,65 @@
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="app-masa.js"></script>
+    <meta charset='utf-8'>
+  </head>
+  
+  <body>
+
+    <h1>Introduzca sus datos</h1>
+    
+    <div class='line'>
+      <span class='span-margin'>Altura</span>
+      <span class='unit'>m</span><input type='text' placeholder='0.0'  id='input-height'>
+    </div>
+    <div class='line'>
+      <span class='span-margin'>Peso</span>
+      <span class='unit'>kg</span><input placeholder='0' type='text' id='input-weight'>
+    </div>
+    <div class='line'>
+      <div class='button' id='calcular-button'>Calcular</div>
+    </div>
+    <div class='line'>
+      <span class='span-margin'>Valoracion del resultado: <span id='resultado'></span></span>
+    </div>
+    
+
+    <div id='rangos'>
+        <div class='table-line table-title'>
+	    Rangos IMC y Descripcion
+	</div>
+        <div class='table-line'>
+	    <div class='table-column'><18,5</div>
+	    <div class='table-column'>Peso por debajo de lo normal</div>
+	</div>
+        <div class='table-line '>
+	    <div class='table-column'>18,5 - 24,9</div>
+	    <div class='table-column'>Peso normal</div>
+	</div>
+        <div class='table-line'>
+	    <div class='table-column'>25 - 29.9</div>
+	    <div class='table-column'>Sobrepeso</div>
+	</div>
+        <div class='table-line'>
+	    <div class='table-column'>30 - 34,9</div>
+	    <div class='table-column'>Obesidad grado I</div>
+	</div>
+        <div class='table-line'>
+	    <div class='table-column'>35 - 39,9</div>
+	    <div class='table-column'>Obesidad grado II</div>
+	</div>
+        <div class='table-line'>
+	    <div class='table-column'>>40</div>
+	    <div class='table-column'>Obesidad grado III</div>
+	</div>
+    </div>
+
+
+    
+
+
+  </body>
+
+</html>
