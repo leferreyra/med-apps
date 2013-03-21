@@ -15,7 +15,7 @@ function removeClassFromChilds(father, classname){
 	   //  elements[i].className = elements[i].className.replace(' '+classname, '');
     //     }
     // }
-    father.children().removeClass('classname');
+    father.children().removeClass(classname);
 }
 
 function calcularIMC(event){
@@ -34,7 +34,7 @@ function calcularIMC(event){
 
     console.log(lines);
 
-    if (res < 18.5){
+    if (res <= 18.5){
         lines[1].className += ' active-table-line';
     }else if (res < 24.9 && res > 18.5){
         lines[2].className += ' active-table-line';
