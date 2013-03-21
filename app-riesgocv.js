@@ -87,7 +87,7 @@ window.onload = function (){
 	"14": [">53", "18"],
 	"15": [">53", "20"],
 	"16": [">53", "24"],
-	">17": [">53", ">27"],
+	">17": [">53", ">27"]
     };
     
     // ============================================
@@ -128,59 +128,110 @@ window.onload = function (){
 	'Fumador'
     ]
 
-    // Insertar elementos en el DOM
-    var fields = document.getElementById('fields');
-    for (i=0 ; i < FIELD_IDS.length; i++){
+ //    // Insertar elementos en el DOM
+ //    var fields = $('#fields');
+ //    for (i=0 ; i < FIELD_IDS.length; i++){
         
-        double_line = '';
-        if (i==4) { double_line = 'double-line' }
+ //        double_line = '';
+ //        if (i==4) { double_line = 'double-line' }
 	
-	html = "<div class='line'>";
-        html+= "<span>"+ FIELD_NAMES[i] +"</span>";
-        html+= "<div id='"+ FIELD_IDS[i] +"' data-value='' class='choice-widget "+ double_line +"'>";
-	for (j=0 ; j < FIELD_OPTIONS[i].length ; j++){
-             html+= "<div class='choice'>"+ FIELD_OPTIONS[i][j] +"</div>";
-	}
-        html+= "</div></div>";
+	// html = "<div class='line'>";
+ //        html+= "<span>"+ FIELD_NAMES[i] +"</span>";
+ //        html+= "<div id='"+ FIELD_IDS[i] +"' data-value='' class='choice-widget "+ double_line +"'>";
+	// for (j=0 ; j < FIELD_OPTIONS[i].length ; j++){
+ //             html+= "<div class='choice'>"+ FIELD_OPTIONS[i][j] +"</div>";
+	// }
+ //        html+= "</div></div>";
 
-	fields.innerHTML += html;
+ //    fields.append(html);
 
-	// Cambiar el ancho de las opciones.
-	var widget = document.getElementById(FIELD_IDS[i]);
-	choices = widget.getElementsByClassName('choice');
-	widget_width = widget.clientWidth;
-	choice_width = Math.floor(widget_width / choices.length)-1;
-	offset = widget_width - (choice_width * choices.length) - 1;
-	for ( x = 0 ; x < choices.length ; x++) {
-	   if ((x % 2) == 0) { style = 'a'; } else { style = 'b' }
-	   choices[x].style.width = choice_width + 'px';
-	   choices[x].className += ' ' + style;
-        }
-	choices[choices.length-1].style.width = choice_width + offset;
-    }
+	// // Cambiar el ancho de las opciones.
+	// var widget = $(FIELD_IDS[i]);
+	// var choices = widget.find('.choice');
+ //    console.log(choices);
+	// widget_width = widget.clientWidth;
+	// choice_width = Math.floor(widget_width / choices.length)-1;
+	// offset = widget_width - (choice_width * choices.length) - 1;
+	// for ( x = 0 ; x < choices.length ; x++) {
+	//    if ((x % 2) == 0) { style = 'a'; } else { style = 'b' }
+	//    choices[x].style.width = choice_width + 'px';
+	//    choices[x].className += ' ' + style;
+ //        }
+	// choices[choices.length-1].style.width = choice_width + offset;
+ //    }
 
-    // Agregar Event Handlers
+ //    // Agregar Event Handlers
     
-    var buttons = fields.getElementsByClassName('choice');
-    for ( n = 0 ; n < buttons.length ; n++ ){
-        buttons[n].onclick = clickHandler;
-    }
+ //    var buttons = fields.getElementsByClassName('choice');
+ //    for ( n = 0 ; n < buttons.length ; n++ ){
+ //        buttons[n].onclick = clickHandler;
+ //    }
+
+    var fields = $('#fields');
+
+    $.each(FIELD_IDS, function(i, elem){
+
+        var newline = $('<div></div>');
+        newline.addClass('line');
+
+        var newspan = $('<span></span>');
+        newspan.text(FIELD_NAMES[i]);
+
+        newline.append(newspan);
+
+        var wdiv= $('<div></div>');
+        wdiv.attr('id', elem);
+        wdiv.attr('data-value', '-');
+        wdiv.addClass('choice-widget');
+        if (i==4){ wdiv.addClass('double-line'); }
+
+        newline.append(wdiv);
+
+        $.each(FIELD_OPTIONS[i], function(idx, elelment){
+
+            newchoice = $('<div></div>');
+            newchoice.addClass('choice');
+            newchoice.html(FIELD_OPTIONS[i][idx]);
+
+            wdiv.append(newchoice);
+
+        });
+
+        fields.append(newline);
+
+        widget = $(elem);
+        choices = $("#" + elem + " .choice");
+
+        widget_width = document.getElementById(elem).clientWidth;
+        console.log(widget_width);
+        choice_width = Math.floor(widget_width / choices.length) - 1;
+        offset = widget_width - (choice_width * choices.length) - 1;
+
+        $.each(choices, function(i, c){
+            if ((i % 2) == 0) { style = 'a'; } else { style = 'b' }
+            c.style.width = choice_width + 'px';
+            c.className += ' ' + style;
+            choices[choices.length-1].style.width = choice_width + offset;
+        });
+
+        choices.click(clickHandler);
+    });
 
 }
 
 function clickHandler(event) {
 
     target = event.target;
-    if (document.getElementById('sexo').getAttribute('data-value') != '' || target.parentNode.getAttribute('id') == 'sexo'){
+    if ($('#sexo').attr('data-value') != '-' || target.parentNode.getAttribute('id') == 'sexo'){
     
          // Manejar el evento click en alguna de las opciones.
          target.parentNode.setAttribute('data-value', elementIndexOf(target ,target.parentNode.children));
-         removeClassFromChilds(target.parentNode, 'active');
+         removeClassFromChilds($('#'+target.parentNode.getAttribute('id')), 'active');
          target.className += ' active';
 
 	 // Actualizar el resultado
 	 updateResult();
-	
+
     } else {
          
 	 alert('Para ver el resultado debe seleccionar primero el sexo');
@@ -199,34 +250,39 @@ function elementIndexOf(item, father){
 }
 
 function removeClassFromChilds(father, classname){
-    elements = father.children;
-    for (i=0 ; i < elements.length; i++) {
-        if ( elements[i].className.indexOf(classname) != -1 ){
-	    elements[i].className = elements[i].className.replace(' '+classname, '');
-        }
-    }
+    // elements = father.children;
+    // for (i=0 ; i < elements.length; i++) {
+    //     if ( elements[i].className.indexOf(classname) != -1 ){
+       //  elements[i].className = elements[i].className.replace(' '+classname, '');
+    //     }
+    // }
+    father.children().removeClass(classname);
 }
+
 
 function updateResult(){
     
-    fields = document.getElementById('fields');
+    var fields = $('#fields');
     points = 0;
-    sexo = Number(document.getElementById('sexo').getAttribute('data-value'));
+    var sexo = Number(document.getElementById('sexo').getAttribute('data-value'));
 
-    for ( i=1 ; i < fields.getElementsByClassName('choice-widget').length ; i++ ){
+    for ( i=1 ; i < $('.choice-widget').length ; i++ ){
 
-        field = fields.getElementsByClassName('choice-widget')[i];
-	
-        if( field.getAttribute('data-value') != ""){
+        field = fields.find('.choice-widget')[i];
+        console.log('alsdjkf: ' + field.getAttribute('data-value'));
 
-	    field_id = field.getAttribute('id');
-	    field_value = Number(field.getAttribute('data-value'));
+        if( field.getAttribute('data-value') != "-"){
 
-	    points += DATA[field_id][field_value][sexo];
-	}
+    	    field_id = field.getAttribute('id');
+    	    field_value = Number(field.getAttribute('data-value'));
+            // console.log('Llamando a: DATA[' +field_id+ '][' +field_value+ '][' +sexo+ ']' );
+    	    points += DATA[field_id][field_value][sexo];
+            // console.log('points: ' + points);
+    	}
+
     }
 
-    if ( points < -2  ) {
+    if ( points <= -2  ) {
         str_points = '<-2';
     }else if ( points >= 17 ){
         str_points = '>17';
@@ -234,21 +290,27 @@ function updateResult(){
         str_points = String(points);
     }
 
-    console.log('points');
-
-    result = RIESGO[str_points][sexo]
+    console.log('pointes: ' + points);
+    console.log('str_points: ' + str_points + ' is a: '+ typeof(str_points));
+    console.log('sexo: ' + sexo + ' is a: '+ typeof(sexo));
+    console.log('Llamando a: RIESGO[' +str_points+ '][' +sexo+ ']' );
+    var result = RIESGO[str_points][sexo];
 
     // Actualizar barra de porcentaje
-    barrawid = document.getElementById('result');
+    barrawid = $('#result');
     if ( result == '>53' ) {
        progress = '55%';
-    } else if ( result == '> 27' ) {
+    } else if ( result == '>27' ) {
        progress = '30%';
     } else {
        progress = result + '%';
     }
-    fill = barrawid.getElementsByClassName('fill')[0].style.width = progress;
-    barrawid.getElementsByTagName('span')[0].innerText = result + '%';
+
+    console.log('progress: ' + progress);
+    console.log('result: ' + result);
+
+    fill = barrawid.find('.fill')[0].style.width = progress;
+    barrawid.find('span')[0].innerText = result + '%';
 }
 
 

@@ -3,3 +3,16 @@
 	width: 100%;
 	text-align: center;
 }
+
+#result .fill {
+	margin-top: -40px;
+	z-index:0;
+	float: left;
+	position: relative;
+}
+
+#result span {
+	z-index:10;
+	float: left;
+	position: relative;
+}
