@@ -3,31 +3,32 @@
 // ================================================
 
 
-window.onload = function(){
+$(document).ready(function(){
     var button = document.getElementById('calcular-button');
     button.onclick = calcularIMC;
-}
+});
 
 function removeClassFromChilds(father, classname){
-    elements = father.children;
-    for (i=0 ; i < elements.length; i++) {
-        if ( elements[i].className.indexOf(classname) != -1 ){
-	    elements[i].className = elements[i].className.replace(' '+classname, '');
-        }
-    }
+    // elements = father.children;
+    // for (i=0 ; i < elements.length; i++) {
+    //     if ( elements[i].className.indexOf(classname) != -1 ){
+	   //  elements[i].className = elements[i].className.replace(' '+classname, '');
+    //     }
+    // }
+    father.children().removeClass('classname');
 }
 
 function calcularIMC(event){
     
-    rangos = document.getElementById('rangos')
-    lines = rangos.getElementsByClassName('table-line');
+    var rangos = $('#rangos');
+    lines = $('#rangos .table-line');
     alto = parseFloat(document.getElementById('input-height').value.replace(',', '.'));
     peso = parseInt(document.getElementById('input-weight').value);
 
     res = (peso / (Math.pow(alto, 2))).toFixed(1);
 
-    spanres = document.getElementById('resultado');
-    spanres.innerText = res.replace('.', ',') + ' Kg / m2';
+    spanres = $('#resultado');
+    spanres.text(res.replace('.', ',') + ' Kg / m2');
 
     removeClassFromChilds(rangos, 'active-table-line');
 
