@@ -28,7 +28,7 @@ function calcularIMC(event){
     res = (peso / (Math.pow(alto, 2))).toFixed(1);
 
     spanres = $('#resultado');
-    spanres.text(res.replace('.', ',') + ' Kg / m2');
+    spanres.text(res.replace('.', ','));
 
     removeClassFromChilds(rangos, 'active-table-line');
 
