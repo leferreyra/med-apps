@@ -148,7 +148,6 @@ window.onload = function (){
 	// // Cambiar el ancho de las opciones.
 	// var widget = $(FIELD_IDS[i]);
 	// var choices = widget.find('.choice');
- //    console.log(choices);
 	// widget_width = widget.clientWidth;
 	// choice_width = Math.floor(widget_width / choices.length)-1;
 	// offset = widget_width - (choice_width * choices.length) - 1;
@@ -203,7 +202,6 @@ window.onload = function (){
         choices = $("#" + elem + " .choice");
 
         widget_width = document.getElementById(elem).clientWidth;
-        console.log(widget_width);
         choice_width = Math.floor(widget_width / choices.length) - 1;
         offset = widget_width - (choice_width * choices.length) - 1;
 
@@ -269,15 +267,12 @@ function updateResult(){
     for ( i=1 ; i < $('.choice-widget').length ; i++ ){
 
         field = fields.find('.choice-widget')[i];
-        console.log('alsdjkf: ' + field.getAttribute('data-value'));
 
         if( field.getAttribute('data-value') != "-"){
 
     	    field_id = field.getAttribute('id');
     	    field_value = Number(field.getAttribute('data-value'));
-            // console.log('Llamando a: DATA[' +field_id+ '][' +field_value+ '][' +sexo+ ']' );
     	    points += DATA[field_id][field_value][sexo];
-            // console.log('points: ' + points);
     	}
 
     }
@@ -290,10 +285,6 @@ function updateResult(){
         str_points = String(points);
     }
 
-    console.log('pointes: ' + points);
-    console.log('str_points: ' + str_points + ' is a: '+ typeof(str_points));
-    console.log('sexo: ' + sexo + ' is a: '+ typeof(sexo));
-    console.log('Llamando a: RIESGO[' +str_points+ '][' +sexo+ ']' );
     var result = RIESGO[str_points][sexo];
 
     // Actualizar barra de porcentaje
@@ -306,8 +297,6 @@ function updateResult(){
        progress = result + '%';
     }
 
-    console.log('progress: ' + progress);
-    console.log('result: ' + result);
 
     fill = barrawid.find('.fill')[0].style.width = progress;
     barrawid.find('span')[0].innerText = result + '%';

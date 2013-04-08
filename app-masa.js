@@ -32,8 +32,6 @@ function calcularIMC(event){
 
     removeClassFromChilds(rangos, 'active-table-line');
 
-    console.log(lines);
-
     if (res <= 18.5){
         lines[1].className += ' active-table-line';
     }else if (res < 24.9 && res > 18.5){
